@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  mysql-development:
+    image: mysql:8.0.17
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: TestDb
+    ports:
+      - "3308:3306"
+
+  webapi:
+    image: webapi
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      ConnectionStrings__TestDatabase: "server=host.docker.internal,3308;user=root;password=password;database=TestDb"
+      ASPNETCORE_ENVIRONMENT: Development
+    ports:
+      - 5000:80
+    depends_on:
+      - mysql-development

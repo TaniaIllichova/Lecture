@@ -14,6 +14,7 @@ using Persistence.Repositories;
 using Services.Abstractions.Servive_interfaces;
 using Services.Mappers;
 using Services.Services;
+using WebApplication2.Extensions;
 using WebApplication2.Filters;
 using WebApplication2.Middlewares;
 
@@ -30,7 +31,7 @@ namespace WebApplication2
         
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<IUserService, UserLvivService>();
+            services.AddTransient<IUserService, UserService>();
             services.AddTransient<IUserRepository, UserRepository>();
 
             //services.AddTransient<ILifeTimeService, LifeTimeService>();
@@ -71,6 +72,8 @@ namespace WebApplication2
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseInitializeDatabase();
 
             //app.UseMiddleware<TestMiddleware>();
             app.UseMiddleware<ExceptionMiddleware>();
